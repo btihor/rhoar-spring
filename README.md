@@ -30,3 +30,19 @@ oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/appl
 oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/webserver/jws31-tomcat8-image-stream.json
 
 ```
+---
+
+# CI/CD Setup in OCP 3.11
+
+## Create Projects
+oc new-project dev --display-name="Tasks - Dev"
+oc new-project stage --display-name="Tasks - Stage"
+oc new-project cicd --display-name="CI/CD"
+
+## Grant Jenkins Access to Projects
+oc policy add-role-to-group edit system:serviceaccounts:cicd -n dev
+oc policy add-role-to-group edit system:serviceaccounts:cicd -n stage
+
+
+
+
