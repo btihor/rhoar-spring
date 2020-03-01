@@ -24,9 +24,9 @@ Image Stream
 ```
 oc login -u system:admin
 
-oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/openjdk/openjdk18-image-stream.json
+oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/openjdk/openjdk18-image-stream.json  --as system:admin
 
-oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/webserver/jws31-tomcat8-image-stream.json
+oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/webserver/jws31-tomcat8-image-stream.json --as system:admin
 
 ```
 ---
@@ -36,7 +36,7 @@ oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/appl
 ## Create Projects
 oc new-project dev --display-name="Spring - Dev"
 
-oc new-project stage --display-name="Sproing - Stage"
+oc new-project stage --display-name="Spring - Stage"
 
 oc new-project cicd --display-name="CI/CD"
 
@@ -48,6 +48,8 @@ oc policy add-role-to-group edit system:serviceaccounts:cicd -n stage
 oc policy add-role-to-group system:image-puller system:serviceaccounts:test -n dev
 
 oc policy add-role-to-group system:image-puller system:serviceaccounts:stage -n dev
+
+oc policy add-role-to-user system:image-puller system:serviceaccount:stage:default -n dev
 
 ## Create pipeline in CICD project
 
