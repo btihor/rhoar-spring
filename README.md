@@ -23,7 +23,6 @@ You can initialize this repository with code from a Subversion, Mercurial, or TF
 Image Stream 
 ```
 oc login -u system:admin
-oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/openjdk/openjdk18-image-stream.json
 
 oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/application-templates/ose-v1.4.14/openjdk/openjdk18-image-stream.json
 
@@ -35,14 +34,22 @@ oc create -n openshift -f https://raw.githubusercontent.com/jboss-openshift/appl
 # CI/CD Setup in OCP 3.11
 
 ## Create Projects
-oc new-project dev --display-name="Tasks - Dev"
-oc new-project stage --display-name="Tasks - Stage"
+oc new-project dev --display-name="Spring - Dev"
+
+oc new-project stage --display-name="Sproing - Stage"
+
 oc new-project cicd --display-name="CI/CD"
 
 ## Grant Jenkins Access to Projects
 oc policy add-role-to-group edit system:serviceaccounts:cicd -n dev
+
 oc policy add-role-to-group edit system:serviceaccounts:cicd -n stage
 
 oc policy add-role-to-group system:image-puller system:serviceaccounts:test -n dev
-$ oc policy add-role-to-group system:image-puller system:serviceaccounts:stage -n dev
+
+oc policy add-role-to-group system:image-puller system:serviceaccounts:stage -n dev
+
+## Create pipeline in CICD project
+
+oc create -f <spring-pipeline.yml>
 
